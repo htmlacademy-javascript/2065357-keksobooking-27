@@ -35,29 +35,29 @@ function getRandomFractNumber(min, max, decimalPlaces) {
 getRandomFractNumber(1.1, 1.2, 3);
 
 // Создаём массив объектов
-const typeOfApartments = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-const timeFrame = ['12:00', '13:00', '14:00'];
-const photosAddress = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+const TYPES_OF_APPARTMENTS = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const TIME_FRAMES = ['12:00', '13:00', '14:00'];
+const PHOTOS_ADDRESS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
-const features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const countForImg = counter();
+const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const countImgNumber = createCounter();
 
 const getRandomIndex = (arr) => getRandomInteger(0, arr.length - 1);
-const transformImgNumber = (number = 1) => number.toString().padStart(2, '0');
+const transformImgNumber = (number) => number.toString().padStart(2, '0');
 
 function getRandomLengthArray(arr) {
-  const array = [];
+  const someValues = [];
   const lengthOfArray = getRandomInteger(1, arr.length);
   for (let i = 0; i < lengthOfArray; i++) {
-    if (!array.includes(arr[i])) {
-      array.push(arr[i]);
+    if (!someValues.includes(arr[i])) {
+      someValues.push(arr[i]);
     }
   }
-  return array;
+  return someValues;
 }
 
-function counter() {
+function createCounter() {
   let count = 0;
 
   return function () {
@@ -69,7 +69,7 @@ function counter() {
 function createCardAd() {
   return {
     author: {
-      avatar: `img/avatars/user${transformImgNumber(countForImg())}.png`
+      avatar: `img/avatars/user${transformImgNumber(countImgNumber())}.png`
     },
 
     location: {
@@ -81,16 +81,19 @@ function createCardAd() {
       title: `Title${getRandomInteger(1, 100)}`,
       address: `${location.lat}, ${location.lng}`,
       price: `${getRandomInteger(100, 500)}$`,
-      type: `${typeOfApartments[getRandomIndex(typeOfApartments)]}`,
+      type: `${TYPES_OF_APPARTMENTS[getRandomIndex(TYPES_OF_APPARTMENTS)]}`,
       rooms: getRandomInteger(1, 5),
       guests: getRandomInteger(1, 4),
-      checkin: `${timeFrame[getRandomIndex(timeFrame)]}`,
-      checkout: `${timeFrame[getRandomIndex(timeFrame)]}`,
-      features: getRandomLengthArray(features),
+      checkin: `${TIME_FRAMES[getRandomIndex(TIME_FRAMES)]}`,
+      checkout: `${TIME_FRAMES[getRandomIndex(TIME_FRAMES)]}`,
+      features: getRandomLengthArray(FEATURES),
       description: `Description${getRandomInteger(1, 100)}`,
-      photos: getRandomLengthArray(photosAddress)
+      photos: getRandomLengthArray(PHOTOS_ADDRESS)
     }
   };
 }
 
 const adList = Array.from({ length: 10 }, createCardAd);
+
+// eslint-disable-next-line no-console
+console.log(adList);
