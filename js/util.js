@@ -1,13 +1,7 @@
 function getRandomInteger(min, max) {
 
-  if (Math.sign(max) === -1 || Math.sign(min) === -1 || max === min) {
+  if (Math.sign(max) === -1 || Math.sign(min) === -1 || max === min || max < min) {
     return NaN;
-  }
-
-  if (max < min) {
-    const reverse = max;
-    max = min;
-    min = reverse;
   }
 
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -15,14 +9,8 @@ function getRandomInteger(min, max) {
 
 function getRandomFractNumber(min, max, decimalPlaces) {
 
-  if (Math.sign(max) === -1 || Math.sign(min) === -1 || max === min) {
+  if (Math.sign(max) === -1 || Math.sign(min) === -1 || max === min || max < min) {
     return NaN;
-  }
-
-  if (max < min) {
-    const reverse = max;
-    max = min;
-    min = reverse;
   }
 
   return (Math.random() * (max - min) + min).toFixed(decimalPlaces);
