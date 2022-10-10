@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomFractNumber, getRandomIndex, transformImgNumber, getRandomLengthArray, createCounter } from '../js/util.js';
+import { getRandomInteger, getRandomFractNumber, getRandomArrayElement, transformImgNumber, getRandomLengthArray } from '../js/util.js';
 
 const TYPES_OF_APPARTMENTS = [
   'palace',
@@ -7,6 +7,13 @@ const TYPES_OF_APPARTMENTS = [
   'bungalow',
   'hotel'
 ];
+const TYPE_DICTIONARY = {
+  palace: 'Замок',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель'
+};
 const TIME_FRAMES = [
   '12:00',
   '13:00',
@@ -25,7 +32,6 @@ const FEATURES = [
   'elevator',
   'conditioner'
 ];
-const ADS_COUNT = 10;
 const COORDINATES = {
   MIN_LAT: 35.65000,
   MAX_LAT: 35.70000,
@@ -33,37 +39,38 @@ const COORDINATES = {
   MAX_LNG: 139.80000,
   NUMBER_OF_DECIMALS: 5
 };
-const countImgNumber = createCounter();
+const ADS_COUNT = 10;
+// const countImgNumber = createCounter();
 
-function createCardAd() {
+function createCardAd(count) {
   const randomLat = getRandomFractNumber(COORDINATES.MIN_LAT, COORDINATES.MAX_LAT, COORDINATES.NUMBER_OF_DECIMALS);
   const randomLng = getRandomFractNumber(COORDINATES.MIN_LNG, COORDINATES.MAX_LNG, COORDINATES.NUMBER_OF_DECIMALS);
   return {
     author: {
-      avatar: `img/avatars/user${transformImgNumber(countImgNumber())}.png`
+      avatar: `img/avatars/user${transformImgNumber(count + 1)}.png`
+    },
+
+    offer: {
+      title: `Заголовок_${getRandomInteger(1, 100)}`,
+      address: `${randomLat}, ${randomLng}`,
+      price: getRandomInteger(10000, 50000),
+      type: TYPE_DICTIONARY[getRandomArrayElement(TYPES_OF_APPARTMENTS)],
+      rooms: getRandomInteger(1, 5),
+      guests: getRandomInteger(1, 4),
+      checkin: getRandomArrayElement(TIME_FRAMES),
+      checkout: getRandomArrayElement(TIME_FRAMES),
+      features: getRandomLengthArray(FEATURES),
+      description: `Описание_${getRandomInteger(1, 100)}`,
+      photos: getRandomLengthArray(PHOTOS_ADDRESS)
     },
 
     location: {
       lat: `${randomLat}`,
       lng: `${randomLng}`
-    },
-
-    offer: {
-      title: `Title${getRandomInteger(1, 100)}`,
-      address: `${randomLat}, ${randomLng}`,
-      price: `${getRandomInteger(100, 500)}$`,
-      type: `${TYPES_OF_APPARTMENTS[getRandomIndex(TYPES_OF_APPARTMENTS)]}`,
-      rooms: getRandomInteger(1, 5),
-      guests: getRandomInteger(1, 4),
-      checkin: `${TIME_FRAMES[getRandomIndex(TIME_FRAMES)]}`,
-      checkout: `${TIME_FRAMES[getRandomIndex(TIME_FRAMES)]}`,
-      features: getRandomLengthArray(FEATURES),
-      description: `Description${getRandomInteger(1, 100)}`,
-      photos: getRandomLengthArray(PHOTOS_ADDRESS)
     }
   };
 }
 
-const createAdList = () => Array.from({ length: ADS_COUNT }, createCardAd);
+const createAdList = () => Array.from({ length: ADS_COUNT }, (_, index) => createCardAd(index));
 
 export { createAdList };
