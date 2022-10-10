@@ -40,7 +40,6 @@ const COORDINATES = {
   NUMBER_OF_DECIMALS: 5
 };
 const ADS_COUNT = 10;
-// const countImgNumber = createCounter();
 
 function createCardAd(count) {
   const randomLat = getRandomFractNumber(COORDINATES.MIN_LAT, COORDINATES.MAX_LAT, COORDINATES.NUMBER_OF_DECIMALS);

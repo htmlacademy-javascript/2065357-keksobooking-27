@@ -1,6 +1,5 @@
 import { createAdList } from '../js/data.js';
 
-
 const cardAdTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
