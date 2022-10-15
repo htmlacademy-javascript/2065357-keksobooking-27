@@ -39,20 +39,24 @@ function switchToActiveState() {
 }
 
 // Валидация
+const MAX_VALUE_OF_SYMBOLS = 100;
+const MIN_VALUE_OF_SYMBOLS = 30;
+const MAX_PRICE = 100000;
 const titleField = adForm.querySelector('#title');
 const priceField = adForm.querySelector('#price');
 const roomsField = adForm.querySelector('#room_number');
 const guestsField = adForm.querySelector('#capacity');
 
-const validateTitle = (value) => value.length >= 30 && value.length <= 100;
-const validatePrice = (value) => value <= 100000;
+const validateTitle = (value) => value.length >= MIN_VALUE_OF_SYMBOLS && value.length <= MAX_VALUE_OF_SYMBOLS;
+const validatePrice = (value) => value <= MAX_PRICE;
 const validateCapacity = () =>
   roomsField.value === '100' ? guestsField.value === '0' : roomsField.value >= guestsField.value && guestsField.value !== '0';
 
 function getCapacityErrorMessage() {
   if (roomsField.value === '100') {
     return 'Не для гостей';
-  } else if (guestsField.value === '0') {
+  }
+  if (guestsField.value === '0') {
     return 'Необходимо 100 комнат';
   }
   return `Необходимо минимум ${guestsField.value} комнаты.`;
@@ -70,12 +74,12 @@ const pristine = new Pristine(adForm, {
 pristine.addValidator(
   titleField,
   validateTitle,
-  'От 30 до 100 символов'
+  `От ${MIN_VALUE_OF_SYMBOLS} до ${MAX_VALUE_OF_SYMBOLS} символов`
 );
 pristine.addValidator(
   priceField,
   validatePrice,
-  'Максимальная цена 100 000 руб.'
+  `Максимальная цена ${MAX_PRICE} руб.`
 );
 pristine.addValidator(
   guestsField,
