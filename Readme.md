@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Иван Соловьев](https://up.htmlacademy.ru/javascript/27/user/2065357).
-* Наставник: [Дмитрий Гуляев](https://htmlacademy.ru/profile/dima).
+* Наставник: [Евгений Лепёшкин](https://htmlacademy.ru/profile/spearance).
 
 ---
 
