@@ -1,4 +1,4 @@
-import { createAdList } from '../js/data.js';
+import { createAdList } from './data.js';
 
 const cardAdTemplate = document.querySelector('#card')
   .content
@@ -83,4 +83,4 @@ adList.forEach(({ author, offer }) => {
   adListFragment.append(cardAdElement);
 });
 
-export { adListFragment };
+export { adListFragment, adList };
