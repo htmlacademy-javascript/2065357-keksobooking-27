@@ -10,13 +10,13 @@ const MIN_PRICE_LIST = {
   'house': 5000,
   'palace': 10000
 };
-const titleField = document.querySelector('#title');
-const typeField = document.querySelector('#type');
-const priceField = document.querySelector('#price');
-const roomsField = document.querySelector('#room_number');
-const guestsField = document.querySelector('#capacity');
-const timeInField = document.querySelector('#timein');
-const timeOutField = document.querySelector('#timeout');
+const titleField = adForm.querySelector('#title');
+const typeField = adForm.querySelector('#type');
+const priceField = adForm.querySelector('#price');
+const roomsField = adForm.querySelector('#room_number');
+const guestsField = adForm.querySelector('#capacity');
+const timeInField = adForm.querySelector('#timein');
+const timeOutField = adForm.querySelector('#timeout');
 
 const validateTitle = (value) => value.length >= MIN_VALUE_OF_SYMBOLS && value.length <= MAX_VALUE_OF_SYMBOLS;
 
@@ -28,19 +28,9 @@ const validatePrice = (value) => {
 const validateCapacity = () =>
   roomsField.value === '100' ? guestsField.value === '0' : roomsField.value >= guestsField.value && guestsField.value !== '0';
 
-const validateTimeIn = () => {
-  timeOutField.value = timeInField.value;
-  return timeInField.value === timeOutField.value;
-};
-
-const validateTimeOut = () => {
-  timeInField.value = timeOutField.value;
-  return timeInField.value === timeOutField.value;
-};
-
 const getPriceErrorMessage = () => `От ${MIN_PRICE_LIST[typeField.value]} руб. до ${MAX_PRICE} руб.`;
 
-function getCapacityErrorMessage() {
+const getCapacityErrorMessage = () => {
   if (roomsField.value === '100') {
     return 'Не для гостей';
   }
@@ -48,7 +38,7 @@ function getCapacityErrorMessage() {
     return 'Необходимо 100 комнат';
   }
   return `Необходимо минимум ${guestsField.value} комнаты.`;
-}
+};
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -79,14 +69,6 @@ pristine.addValidator(
   validateCapacity,
   getCapacityErrorMessage
 );
-pristine.addValidator(
-  timeInField,
-  validateTimeIn
-);
-pristine.addValidator(
-  timeOutField,
-  validateTimeOut
-);
 
 typeField.addEventListener('change', () => {
   priceField.placeholder = MIN_PRICE_LIST[typeField.value];
@@ -101,8 +83,16 @@ guestsField.addEventListener('change', () => {
   pristine.validate(roomsField);
 });
 
+timeInField.addEventListener('change', () => {
+  timeOutField.value = timeInField.value;
+});
+
+timeOutField.addEventListener('change', () => {
+  timeInField.value = timeOutField.value;
+});
+
 // слайдер
-const adFormSlider = document.querySelector('.ad-form__slider');
+const adFormSlider = adForm.querySelector('.ad-form__slider');
 
 noUiSlider.create(adFormSlider, {
   range: {
@@ -122,7 +112,6 @@ noUiSlider.create(adFormSlider, {
   }
 });
 
-
 adFormSlider.noUiSlider.on('change', () => {
   priceField.value = adFormSlider.noUiSlider.get();
   pristine.validate(priceField);
@@ -138,6 +127,6 @@ priceField.addEventListener('input', () => {
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
-    adForm.submit();
+    evt.target.submit();
   }
 });
