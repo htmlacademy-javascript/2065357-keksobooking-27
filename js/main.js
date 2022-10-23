@@ -1,3 +1,5 @@
 import './map.js';
-import './user-form.js';
 import './validate.js';
+import { switchPageMode } from './user-form.js';
+
+switchPageMode();

@@ -3,6 +3,8 @@ import { adForm } from './user-form.js';
 const MAX_VALUE_OF_SYMBOLS = 100;
 const MIN_VALUE_OF_SYMBOLS = 30;
 const MAX_PRICE = 100000;
+const MAX_VALUE_OF_ROOMS = '100';
+const MIN_VALUE_OF_GUESTS = '0';
 const MIN_PRICE_LIST = {
   'bungalow': 0,
   'flat': 1000,
@@ -26,16 +28,16 @@ const validatePrice = (value) => {
 };
 
 const validateCapacity = () =>
-  roomsField.value === '100' ? guestsField.value === '0' : roomsField.value >= guestsField.value && guestsField.value !== '0';
+  roomsField.value === MAX_VALUE_OF_ROOMS ? guestsField.value === MIN_VALUE_OF_GUESTS : roomsField.value >= guestsField.value && guestsField.value !== MIN_VALUE_OF_GUESTS;
 
 const getPriceErrorMessage = () => `От ${MIN_PRICE_LIST[typeField.value]} руб. до ${MAX_PRICE} руб.`;
 
 const getCapacityErrorMessage = () => {
-  if (roomsField.value === '100') {
+  if (roomsField.value === MAX_VALUE_OF_ROOMS) {
     return 'Не для гостей';
   }
-  if (guestsField.value === '0') {
-    return 'Необходимо 100 комнат';
+  if (guestsField.value === MIN_VALUE_OF_GUESTS) {
+    return `Необходимо ${MAX_VALUE_OF_ROOMS} комнат`;
   }
   return `Необходимо минимум ${guestsField.value} комнаты.`;
 };
@@ -72,7 +74,9 @@ pristine.addValidator(
 
 typeField.addEventListener('change', () => {
   priceField.placeholder = MIN_PRICE_LIST[typeField.value];
-  pristine.validate(priceField);
+  if (priceField.value) {
+    pristine.validate(priceField);
+  }
 });
 
 roomsField.addEventListener('change', () => {
@@ -118,7 +122,7 @@ adFormSlider.noUiSlider.on('change', () => {
 });
 
 priceField.addEventListener('input', () => {
-  if (priceField.value === '') {
+  if (!priceField.value) {
     adFormSlider.noUiSlider.set(0);
   }
   adFormSlider.noUiSlider.set(priceField.value);
