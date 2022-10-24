@@ -41,12 +41,12 @@ const COORDINATES = {
 };
 const ADS_COUNT = 10;
 
-function createCardAd(count) {
+const createCardAd = (count) => {
   const randomLat = getRandomFractNumber(COORDINATES.MIN_LAT, COORDINATES.MAX_LAT, COORDINATES.NUMBER_OF_DECIMALS);
   const randomLng = getRandomFractNumber(COORDINATES.MIN_LNG, COORDINATES.MAX_LNG, COORDINATES.NUMBER_OF_DECIMALS);
   return {
     author: {
-      avatar: `img/avatars/user${transformImgNumber(count + 1)}.png`
+      avatar: `img/avatars/user${transformImgNumber(count)}.png`
     },
 
     offer: {
@@ -68,8 +68,8 @@ function createCardAd(count) {
       lng: `${randomLng}`
     }
   };
-}
+};
 
-const createAdList = () => Array.from({ length: ADS_COUNT }, (_, index) => createCardAd(index));
+const createAdList = () => Array.from({ length: ADS_COUNT }, (_, index) => createCardAd(index + 1));
 
 export { createAdList };

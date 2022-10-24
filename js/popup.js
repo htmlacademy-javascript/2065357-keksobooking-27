@@ -1,4 +1,4 @@
-import { createAdList } from '../js/data.js';
+import { createAdList } from './data.js';
 
 const cardAdTemplate = document.querySelector('#card')
   .content
@@ -10,21 +10,18 @@ const adListFragment = document.createDocumentFragment();
 adList.forEach(({ author, offer }) => {
   const cardAdElement = cardAdTemplate.cloneNode(true);
 
-  const hideSelector = (selector) => cardAdElement.querySelector(selector).remove();
-  const useSelector = (selector) => cardAdElement.querySelector(selector);
-
-  function renderData(selector, data, caption = '') {
+  const renderData = (selector, data, caption = '') => {
     if (!data) {
-      hideSelector(selector);
+      cardAdElement.querySelector(selector).remove();
     } else {
-      useSelector(selector).textContent = data + caption;
+      cardAdElement.querySelector(selector).textContent = data + caption;
     }
-  }
+  };
 
   if (!author.avatar) {
-    hideSelector('.popup__avatar');
+    cardAdElement.querySelector('.popup__avatar').remove();
   } else {
-    useSelector('.popup__avatar').src = author.avatar;
+    cardAdElement.querySelector('.popup__avatar').src = author.avatar;
   }
 
   renderData('.popup__title', offer.title);
@@ -34,15 +31,15 @@ adList.forEach(({ author, offer }) => {
   renderData('.popup__description', offer.description);
 
   if (!offer.rooms || !offer.guests) {
-    hideSelector('.popup__text--capacity');
+    cardAdElement.querySelector('.popup__text--capacity').remove();
   } else {
-    useSelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+    cardAdElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   }
 
   if (!offer.checkin || !offer.checkout) {
-    hideSelector('.popup__text--time');
+    cardAdElement.querySelector('.popup__text--time').remove();
   } else {
-    useSelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+    cardAdElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   }
 
   // отрисовка доп опций
@@ -83,4 +80,4 @@ adList.forEach(({ author, offer }) => {
   adListFragment.append(cardAdElement);
 });
 
-export { adListFragment };
+export { adListFragment, adList };
