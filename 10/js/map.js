@@ -1,7 +1,5 @@
 import { adList, adListFragment } from './popup.js';
-import { switchToActiveState, switchToInactiveState } from './user-form.js';
-
-switchToInactiveState();
+import { switchPageMode } from './user-form.js';
 
 const mainSettings = {
   lat: 35.68940,
@@ -11,11 +9,11 @@ const mainSettings = {
 };
 const addressField = document.querySelector('#address');
 
-addressField.value = `${mainSettings.lat.toFixed(mainSettings.numberDecimals)} ш. ${mainSettings.lng.toFixed(mainSettings.numberDecimals)} д.`;
+addressField.value = `${mainSettings.lat.toFixed(mainSettings.numberDecimals)} ${mainSettings.lng.toFixed(mainSettings.numberDecimals)}`;
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    switchToActiveState();
+    switchPageMode();
   })
   .setView({
     lat: mainSettings.lat,
@@ -56,7 +54,7 @@ mainPinMarker.addTo(map);
 
 mainPinMarker.on('move', (evt) => {
   const latLng = evt.target.getLatLng();
-  addressField.value = `${latLng.lat.toFixed(mainSettings.numberDecimals)} ш. ${latLng.lng.toFixed(mainSettings.numberDecimals)} д.`;
+  addressField.value = `${latLng.lat.toFixed(mainSettings.numberDecimals)} ${latLng.lng.toFixed(mainSettings.numberDecimals)}`;
 });
 
 adList.forEach(({ location }, index) => {

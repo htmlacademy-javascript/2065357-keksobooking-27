@@ -3,6 +3,8 @@ import { adForm } from './user-form.js';
 const MAX_VALUE_OF_SYMBOLS = 100;
 const MIN_VALUE_OF_SYMBOLS = 30;
 const MAX_PRICE = 100000;
+const MAX_VALUE_OF_ROOMS = '100';
+const MIN_VALUE_OF_GUESTS = '0';
 const MIN_PRICE_LIST = {
   'bungalow': 0,
   'flat': 1000,
@@ -10,13 +12,13 @@ const MIN_PRICE_LIST = {
   'house': 5000,
   'palace': 10000
 };
-const titleField = document.querySelector('#title');
-const typeField = document.querySelector('#type');
-const priceField = document.querySelector('#price');
-const roomsField = document.querySelector('#room_number');
-const guestsField = document.querySelector('#capacity');
-const timeInField = document.querySelector('#timein');
-const timeOutField = document.querySelector('#timeout');
+const titleField = adForm.querySelector('#title');
+const typeField = adForm.querySelector('#type');
+const priceField = adForm.querySelector('#price');
+const roomsField = adForm.querySelector('#room_number');
+const guestsField = adForm.querySelector('#capacity');
+const timeInField = adForm.querySelector('#timein');
+const timeOutField = adForm.querySelector('#timeout');
 
 const validateTitle = (value) => value.length >= MIN_VALUE_OF_SYMBOLS && value.length <= MAX_VALUE_OF_SYMBOLS;
 
@@ -26,29 +28,19 @@ const validatePrice = (value) => {
 };
 
 const validateCapacity = () =>
-  roomsField.value === '100' ? guestsField.value === '0' : roomsField.value >= guestsField.value && guestsField.value !== '0';
-
-const validateTimeIn = () => {
-  timeOutField.value = timeInField.value;
-  return timeInField.value === timeOutField.value;
-};
-
-const validateTimeOut = () => {
-  timeInField.value = timeOutField.value;
-  return timeInField.value === timeOutField.value;
-};
+  roomsField.value === MAX_VALUE_OF_ROOMS ? guestsField.value === MIN_VALUE_OF_GUESTS : roomsField.value >= guestsField.value && guestsField.value !== MIN_VALUE_OF_GUESTS;
 
 const getPriceErrorMessage = () => `От ${MIN_PRICE_LIST[typeField.value]} руб. до ${MAX_PRICE} руб.`;
 
-function getCapacityErrorMessage() {
-  if (roomsField.value === '100') {
+const getCapacityErrorMessage = () => {
+  if (roomsField.value === MAX_VALUE_OF_ROOMS) {
     return 'Не для гостей';
   }
-  if (guestsField.value === '0') {
-    return 'Необходимо 100 комнат';
+  if (guestsField.value === MIN_VALUE_OF_GUESTS) {
+    return `Необходимо ${MAX_VALUE_OF_ROOMS} комнат`;
   }
   return `Необходимо минимум ${guestsField.value} комнаты.`;
-}
+};
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -79,18 +71,12 @@ pristine.addValidator(
   validateCapacity,
   getCapacityErrorMessage
 );
-pristine.addValidator(
-  timeInField,
-  validateTimeIn
-);
-pristine.addValidator(
-  timeOutField,
-  validateTimeOut
-);
 
 typeField.addEventListener('change', () => {
   priceField.placeholder = MIN_PRICE_LIST[typeField.value];
-  pristine.validate(priceField);
+  if (priceField.value) {
+    pristine.validate(priceField);
+  }
 });
 
 roomsField.addEventListener('change', () => {
@@ -101,8 +87,16 @@ guestsField.addEventListener('change', () => {
   pristine.validate(roomsField);
 });
 
+timeInField.addEventListener('change', () => {
+  timeOutField.value = timeInField.value;
+});
+
+timeOutField.addEventListener('change', () => {
+  timeInField.value = timeOutField.value;
+});
+
 // слайдер
-const adFormSlider = document.querySelector('.ad-form__slider');
+const adFormSlider = adForm.querySelector('.ad-form__slider');
 
 noUiSlider.create(adFormSlider, {
   range: {
@@ -122,14 +116,13 @@ noUiSlider.create(adFormSlider, {
   }
 });
 
-
 adFormSlider.noUiSlider.on('change', () => {
   priceField.value = adFormSlider.noUiSlider.get();
   pristine.validate(priceField);
 });
 
 priceField.addEventListener('input', () => {
-  if (priceField.value === '') {
+  if (!priceField.value) {
     adFormSlider.noUiSlider.set(0);
   }
   adFormSlider.noUiSlider.set(priceField.value);
@@ -138,6 +131,6 @@ priceField.addEventListener('input', () => {
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
-    adForm.submit();
+    evt.target.submit();
   }
 });

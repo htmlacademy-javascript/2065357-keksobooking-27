@@ -1,37 +1,18 @@
 const adForm = document.querySelector('.ad-form');
-const adFormFieldsets = adForm.querySelectorAll('fieldset');
-const adFormSliders = adForm.querySelectorAll('.ad-form__slider');
 const mapForm = document.querySelector('.map__filters');
-const mapFilters = mapForm.querySelectorAll('.map__filter');
-const mapFieldsets = mapForm.querySelectorAll('fieldset');
+const fieldsOfForms = document.querySelectorAll('select.map__filter, fieldset');
 
-const switchStateForm = (isAdd) => {
-  adForm.classList.toggle('ad-form--disabled', isAdd);
-  mapForm.classList.toggle('map__filters--disabled', isAdd);
-};
-
-function switchStateElements(elements, isEnabled) {
-  elements.forEach((element) => {
-    element.disabled = isEnabled;
+const switchStateElements = () => {
+  fieldsOfForms.forEach((element) => {
+    element.disabled = !element.disabled;
   });
-}
-
-const switchToInactiveState = () => {
-  switchStateForm(true);
-
-  switchStateElements(adFormFieldsets, true);
-  switchStateElements(adFormSliders, true);
-  switchStateElements(mapFilters, true);
-  switchStateElements(mapFieldsets, true);
 };
 
-const switchToActiveState = () => {
-  switchStateForm(false);
+const switchPageMode = () => {
+  adForm.classList.toggle('ad-form--disabled');
+  mapForm.classList.toggle('map__filters--disabled');
 
-  switchStateElements(adFormFieldsets, false);
-  switchStateElements(adFormSliders, false);
-  switchStateElements(mapFilters, false);
-  switchStateElements(mapFieldsets, false);
+  switchStateElements();
 };
 
-export { switchToInactiveState, switchToActiveState, adForm };
+export { switchPageMode, adForm };
