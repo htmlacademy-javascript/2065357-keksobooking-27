@@ -12,13 +12,19 @@ const getErrorMessage = `<div style="
                             justify-content: center;
                             align-items: center;
                             position: absolute;
-                            width: 100%;
+                            top: 100px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            width: 300px;
                             height: 50px;
                             font-size: 20px;
-                            color: red;
-                            background-color: #000000;">
+                            color: rgb(238, 0, 0);
+                            background-color: #000000;
+                            border-radius: 10px;
+                            box-shadow: 0 5px 10px 2px rgba(0,0,0, .5);
+                            z-index: 1000;">
                             Ошибка загрузки данных
-                          </div>`;
+                        </div>`;
 
 const closeSuccessMessage = () => {
   postSuccessMessage.remove();
@@ -47,7 +53,7 @@ const showErrorMessage = () => {
 };
 
 const showGetErrorMessage = () => {
-  document.querySelector('.map__filters').innerHTML += getErrorMessage;
+  document.querySelector('.notice').innerHTML += getErrorMessage;
 };
 
 function isEscapeKey(evt) {
