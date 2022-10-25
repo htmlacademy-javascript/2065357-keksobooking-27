@@ -1,5 +1,3 @@
-import { adForm } from './user-form.js';
-
 const MAX_VALUE_OF_SYMBOLS = 100;
 const MIN_VALUE_OF_SYMBOLS = 30;
 const MAX_PRICE = 100000;
@@ -12,6 +10,7 @@ const MIN_PRICE_LIST = {
   'house': 5000,
   'palace': 10000
 };
+const adForm = document.querySelector('.ad-form');
 const titleField = adForm.querySelector('#title');
 const typeField = adForm.querySelector('#type');
 const priceField = adForm.querySelector('#price');
@@ -128,9 +127,4 @@ priceField.addEventListener('input', () => {
   adFormSlider.noUiSlider.set(priceField.value);
 });
 
-adForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  if (pristine.validate()) {
-    evt.target.submit();
-  }
-});
+export { adForm, adFormSlider, pristine };
