@@ -1,6 +1,6 @@
 import { sendData } from './api.js';
 import { updateMainMarker } from './map.js';
-import { adForm, adFormSlider, pristine } from './validate.js';
+import { adForm, adFormSlider, pristine, setPricePlaceholder } from './validate.js';
 
 const mapForm = document.querySelector('.map__filters');
 const fieldsOfForms = document.querySelectorAll('select.map__filter, fieldset');
@@ -33,7 +33,9 @@ const unblockSubmitButton = () => {
 
 const resetForm = (form) => {
   adFormSlider.noUiSlider.set(0);
+  pristine.reset();
   form.reset();
+  setPricePlaceholder();
   updateMainMarker();
 };
 
