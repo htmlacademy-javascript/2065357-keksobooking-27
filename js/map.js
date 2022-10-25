@@ -1,4 +1,4 @@
-import { adList, adListFragment } from './popup.js';
+import { renderAdList } from './popup.js';
 import { switchPageMode } from './user-form.js';
 
 const mainSettings = {
@@ -57,17 +57,30 @@ mainPinMarker.on('move', (evt) => {
   addressField.value = `${latLng.lat.toFixed(mainSettings.numberDecimals)} ${latLng.lng.toFixed(mainSettings.numberDecimals)}`;
 });
 
-adList.forEach(({ location }, index) => {
-  const marker = L.marker(
-    {
-      lat: location.lat,
-      lng: location.lng
-    },
-    {
-      icon: markerIcon
-    });
+const renderMarker = (adList) => {
 
-  marker
-    .addTo(map)
-    .bindPopup(adListFragment.children[index]);
-});
+  adList.forEach(({ location }, index) => {
+    const marker = L.marker(
+      {
+        lat: location.lat,
+        lng: location.lng
+      },
+      {
+        icon: markerIcon
+      });
+
+    marker
+      .addTo(map)
+      .bindPopup(renderAdList(adList, index));
+  });
+};
+
+const updateMainMarker = () => {
+  mainPinMarker.setLatLng({
+    lat: mainSettings.lat,
+    lng: mainSettings.lng
+  });
+  addressField.value = `${mainSettings.lat.toFixed(mainSettings.numberDecimals)} ${mainSettings.lng.toFixed(mainSettings.numberDecimals)}`;
+};
+
+export { renderMarker, updateMainMarker };
