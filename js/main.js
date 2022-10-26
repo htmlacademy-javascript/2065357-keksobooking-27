@@ -3,13 +3,15 @@ import { showSuccessMessage, showErrorMessage } from './message.js';
 import { switchPageMode, setAdFormSubmit } from './user-form.js';
 import { getData } from './api.js';
 import './validate.js';
+import { activateFilter, filterAds } from './filter.js';
 
 switchPageMode();
 
-const ADS_COUNT = 10;
-
 getData((ads) => {
-  renderMarker(ads.slice(0, ADS_COUNT));
+  renderMarker(filterAds(ads));
+  activateFilter(() => {
+    renderMarker(filterAds(ads));
+  });
 });
 
 setAdFormSubmit(showSuccessMessage, showErrorMessage);
