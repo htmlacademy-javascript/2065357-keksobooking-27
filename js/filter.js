@@ -1,7 +1,8 @@
-import { markerGroup } from './map.js';
+import { markerGroup, ADS_COUNT, renderStartMarkers } from './map.js';
+import { debounce } from './util.js';
 
-const ADS_COUNT = 10;
 const ANY = 'any';
+const DELAY_TIME = 500;
 const PRICE_FILTER_VALUES = {
   low: (value) => value < 10000,
   middle: (value) => 10000 <= value && value <= 50000,
@@ -72,13 +73,15 @@ const filterAds = (arr) => {
 };
 
 const activateFilter = (cb) => {
-  filtersContainer.addEventListener('change', () => {
+  filtersContainer.addEventListener('change', debounce(() => {
     markerGroup.clearLayers();
     cb();
-  });
+  }, DELAY_TIME));
 };
 
 const resetFilters = () => {
+  markerGroup.clearLayers();
+  renderStartMarkers();
   filtersContainer.reset();
 };
 
