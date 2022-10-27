@@ -1,6 +1,8 @@
+import { getData } from './api.js';
 import { renderAdList } from './popup.js';
-import { switchPageMode } from './user-form.js';
+import { switchStateAdForm } from './user-form.js';
 
+const ADS_COUNT = 10;
 const mainSettings = {
   lat: 35.68940,
   lng: 139.69200,
@@ -13,7 +15,7 @@ addressField.value = `${mainSettings.lat.toFixed(mainSettings.numberDecimals)} $
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    switchPageMode();
+    switchStateAdForm();
   })
   .setView({
     lat: mainSettings.lat,
@@ -57,6 +59,8 @@ mainPinMarker.on('move', (evt) => {
   addressField.value = `${latLng.lat.toFixed(mainSettings.numberDecimals)} ${latLng.lng.toFixed(mainSettings.numberDecimals)}`;
 });
 
+const markerGroup = L.layerGroup().addTo(map);
+
 const renderMarker = (adList) => {
 
   adList.forEach(({ location }, index) => {
@@ -70,7 +74,7 @@ const renderMarker = (adList) => {
       });
 
     marker
-      .addTo(map)
+      .addTo(markerGroup)
       .bindPopup(renderAdList(adList, index));
   });
 };
@@ -83,4 +87,8 @@ const updateMainMarker = () => {
   addressField.value = `${mainSettings.lat.toFixed(mainSettings.numberDecimals)} ${mainSettings.lng.toFixed(mainSettings.numberDecimals)}`;
 };
 
-export { renderMarker, updateMainMarker };
+const renderStartMarkers = () => {
+  getData((ads) => renderMarker(ads.slice(0, ADS_COUNT)));
+};
+
+export { renderMarker, updateMainMarker, markerGroup, renderStartMarkers, ADS_COUNT };
