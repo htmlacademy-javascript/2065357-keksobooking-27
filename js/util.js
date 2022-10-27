@@ -30,4 +30,14 @@ const getRandomLengthArray = (arr) => {
   return someValues;
 };
 
-export { getRandomInteger, getRandomFractNumber, getRandomArrayElement, transformImgNumber, getRandomLengthArray };
+const debounce = (callback, timeoutDelay) => {
+
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export { getRandomInteger, getRandomFractNumber, getRandomArrayElement, transformImgNumber, getRandomLengthArray, debounce };
