@@ -40,4 +40,6 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-export { getRandomInteger, getRandomFractNumber, getRandomArrayElement, transformImgNumber, getRandomLengthArray, debounce };
+const checkPriceInRange = (number, min, max) => min <= number && number <= max;
+
+export { getRandomInteger, getRandomFractNumber, getRandomArrayElement, transformImgNumber, getRandomLengthArray, debounce, checkPriceInRange };
