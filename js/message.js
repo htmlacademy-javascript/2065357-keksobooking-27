@@ -18,6 +18,7 @@ const getErrorMessage = `<div style="
                             width: 300px;
                             height: 50px;
                             font-size: 20px;
+                            font-weight: 700;
                             color: rgb(238, 0, 0);
                             background-color: #000000;
                             border-radius: 10px;
