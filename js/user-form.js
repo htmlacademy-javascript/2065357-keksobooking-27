@@ -1,4 +1,4 @@
-import { sendData } from './api.js';
+import { request } from './api.js';
 import { updateMainMarker } from './map.js';
 import { adForm, adFormSlider, pristine, setPricePlaceholder } from './validate.js';
 
@@ -49,7 +49,7 @@ const setAdFormSubmit = (onSuccess, onError) => {
     evt.preventDefault();
     if (pristine.validate()) {
       blockSubmitButton();
-      sendData(
+      request(
         () => {
           onSuccess();
           resetForm(evt.target);
@@ -59,6 +59,7 @@ const setAdFormSubmit = (onSuccess, onError) => {
           onError();
           unblockSubmitButton();
         },
+        'POST',
         new FormData(evt.target)
       );
     }
