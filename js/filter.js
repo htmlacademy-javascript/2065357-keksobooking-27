@@ -1,12 +1,21 @@
 import { markerGroup, ADS_COUNT, renderStartMarkers } from './map.js';
-import { debounce } from './util.js';
+import { debounce, checkPriceInRange } from './util.js';
 
 const ANY = 'any';
 const DELAY_TIME = 500;
-const PRICE_FILTER_VALUES = {
-  low: (value) => value < 10000,
-  middle: (value) => 10000 <= value && value <= 50000,
-  high: (value) => 50000 < value
+const PRICE_FILTER_INTERVALS = {
+  low: {
+    min: 0,
+    max: 10000
+  },
+  middle: {
+    min: 10000,
+    max: 50000
+  },
+  high: {
+    min: 50000,
+    max: 100000
+  }
 };
 const filtersContainer = document.querySelector('.map__filters');
 const type = filtersContainer.querySelector('#housing-type');
@@ -27,7 +36,7 @@ const filterPrice = ({ offer }) => {
   if (price.value === ANY) {
     return true;
   }
-  return PRICE_FILTER_VALUES[price.value](offer.price);
+  return checkPriceInRange(offer.price, PRICE_FILTER_INTERVALS[price.value].min, PRICE_FILTER_INTERVALS[price.value].max);
 };
 
 const filterRooms = ({ offer }) => {
