@@ -1,5 +1,3 @@
-import { adForm } from './user-form.js';
-
 const MAX_VALUE_OF_SYMBOLS = 100;
 const MIN_VALUE_OF_SYMBOLS = 30;
 const MAX_PRICE = 100000;
@@ -12,6 +10,7 @@ const MIN_PRICE_LIST = {
   'house': 5000,
   'palace': 10000
 };
+const adForm = document.querySelector('.ad-form');
 const titleField = adForm.querySelector('#title');
 const typeField = adForm.querySelector('#type');
 const priceField = adForm.querySelector('#price');
@@ -22,10 +21,7 @@ const timeOutField = adForm.querySelector('#timeout');
 
 const validateTitle = (value) => value.length >= MIN_VALUE_OF_SYMBOLS && value.length <= MAX_VALUE_OF_SYMBOLS;
 
-const validatePrice = (value) => {
-  priceField.placeholder = MIN_PRICE_LIST[typeField.value];
-  return value >= MIN_PRICE_LIST[typeField.value] && value <= MAX_PRICE;
-};
+const validatePrice = (value) => value >= MIN_PRICE_LIST[typeField.value] && value <= MAX_PRICE;
 
 const validateCapacity = () =>
   roomsField.value === MAX_VALUE_OF_ROOMS ? guestsField.value === MIN_VALUE_OF_GUESTS : roomsField.value >= guestsField.value && guestsField.value !== MIN_VALUE_OF_GUESTS;
@@ -40,6 +36,10 @@ const getCapacityErrorMessage = () => {
     return `Необходимо ${MAX_VALUE_OF_ROOMS} комнат`;
   }
   return `Необходимо минимум ${guestsField.value} комнаты.`;
+};
+
+const setPricePlaceholder = () => {
+  priceField.placeholder = MIN_PRICE_LIST[typeField.value];
 };
 
 const pristine = new Pristine(adForm, {
@@ -73,7 +73,7 @@ pristine.addValidator(
 );
 
 typeField.addEventListener('change', () => {
-  priceField.placeholder = MIN_PRICE_LIST[typeField.value];
+  setPricePlaceholder();
   if (priceField.value) {
     pristine.validate(priceField);
   }
@@ -128,9 +128,4 @@ priceField.addEventListener('input', () => {
   adFormSlider.noUiSlider.set(priceField.value);
 });
 
-adForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  if (pristine.validate()) {
-    evt.target.submit();
-  }
-});
+export { adForm, adFormSlider, pristine, setPricePlaceholder };
