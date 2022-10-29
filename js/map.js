@@ -1,6 +1,6 @@
-import { getData } from './api.js';
+import { request } from './api.js';
+import { showGetErrorMessage } from './message.js';
 import { renderAdList } from './popup.js';
-import { switchStateAdForm } from './user-form.js';
 
 const ADS_COUNT = 10;
 const mainSettings = {
@@ -13,14 +13,7 @@ const addressField = document.querySelector('#address');
 
 addressField.value = `${mainSettings.lat.toFixed(mainSettings.numberDecimals)} ${mainSettings.lng.toFixed(mainSettings.numberDecimals)}`;
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    switchStateAdForm();
-  })
-  .setView({
-    lat: mainSettings.lat,
-    lng: mainSettings.lng
-  }, mainSettings.zoom);
+const map = L.map('map-canvas');
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -88,7 +81,9 @@ const updateMainMarker = () => {
 };
 
 const renderStartMarkers = () => {
-  getData((ads) => renderMarker(ads.slice(0, ADS_COUNT)));
+  request((ads) => {
+    renderMarker(ads.slice(0, ADS_COUNT));
+  }, showGetErrorMessage, 'GET');
 };
 
-export { renderMarker, updateMainMarker, markerGroup, renderStartMarkers, ADS_COUNT };
+export { renderMarker, updateMainMarker, markerGroup, renderStartMarkers, ADS_COUNT, map, mainSettings };
