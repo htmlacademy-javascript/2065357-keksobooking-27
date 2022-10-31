@@ -21,4 +21,5 @@ map.on('load', () => {
   lng: mainSettings.lng
 }, mainSettings.zoom);
 
+
 setAdFormSubmit(showSuccessMessage, showErrorMessage);
