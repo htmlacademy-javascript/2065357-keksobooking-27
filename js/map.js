@@ -1,4 +1,4 @@
-import { request } from './api.js';
+import { sendRequest } from './api.js';
 import { showGetErrorMessage } from './message.js';
 import { renderAdList } from './popup.js';
 
@@ -81,7 +81,7 @@ const updateMainMarker = () => {
 };
 
 const renderStartMarkers = () => {
-  request((ads) => {
+  sendRequest((ads) => {
     renderMarker(ads.slice(0, ADS_COUNT));
   }, showGetErrorMessage, 'GET');
 };
