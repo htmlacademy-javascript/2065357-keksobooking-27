@@ -1,5 +1,5 @@
 const TYPE_DICTIONARY = {
-  palace: 'Замок',
+  palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
   bungalow: 'Бунгало',
