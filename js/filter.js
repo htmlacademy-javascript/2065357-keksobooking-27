@@ -24,7 +24,6 @@ const rooms = filtersContainer.querySelector('#housing-rooms');
 const guests = filtersContainer.querySelector('#housing-guests');
 const featuresCheckboxes = document.querySelectorAll('[name="features"]');
 
-
 const filterType = ({ offer }) => {
   if (type.value === ANY) {
     return true;
@@ -72,13 +71,18 @@ const compareAds = (adA, adB) => {
 };
 
 const filterAds = (arr) => {
-  const filteredAds = arr.filter(filterType)
-    .filter(filterPrice)
-    .filter(filterRooms)
-    .filter(filterGuests)
-    .filter(filterFeatures);
-
-  return filteredAds.sort(compareAds).slice(0, ADS_COUNT);
+  const filteredAds = [];
+  let i = 0;
+  while (filteredAds.length !== ADS_COUNT) {
+    if (!arr[i]) {
+      break;
+    }
+    if (filterType(arr[i]) && filterPrice(arr[i]) && filterRooms(arr[i]) && filterGuests(arr[i]) && filterFeatures(arr[i])) {
+      filteredAds.push(arr[i]);
+    }
+    i++;
+  }
+  return filteredAds.sort(compareAds);
 };
 
 const activateFilter = (cb) => {
