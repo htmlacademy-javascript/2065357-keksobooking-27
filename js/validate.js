@@ -116,7 +116,7 @@ noUiSlider.create(adFormSlider, {
   }
 });
 
-adFormSlider.noUiSlider.on('change', () => {
+adFormSlider.noUiSlider.on('slide', () => {
   priceField.value = adFormSlider.noUiSlider.get();
   pristine.validate(priceField);
 });
