@@ -73,7 +73,7 @@ const compareAds = (adA, adB) => {
 const filterAds = (arr) => {
   const filteredAds = [];
   let i = 0;
-  while (filteredAds.length !== ADS_COUNT) {
+  while (filteredAds.length <= ADS_COUNT) {
     if (!arr[i]) {
       break;
     }
