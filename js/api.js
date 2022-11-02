@@ -1,33 +1,22 @@
-import { showGetErrorMessage } from './message.js';
-
-const getData = (onSuccess) => {
-  fetch('https://27.javascript.pages.academy/keksobooking/data')
-    .then((response) => response.json())
-    .then((ads) => {
-      onSuccess(ads);
-    })
-    .catch(() => {
-      showGetErrorMessage();
-    });
+const Urls = {
+  GET: 'https://25.javascript.pages.academy/keksobooking/data',
+  POST: 'https://25.javascript.pages.academy/keksobooking',
 };
 
-const sendData = (onSuccess, onError, body) => {
-  fetch('https://27.javascript.pages.academy/keksobooking',
+const sendRequest = (onSuccess, onError, method, data) => {
+  fetch(
+    Urls[method],
     {
-      method: 'POST',
-      body
-    }
+      method: method,
+      body: data,
+    },
   )
-    .then((response) => {
-      if (response.ok) {
-        onSuccess();
-      } else {
-        onError();
-      }
-    })
-    .catch(() => {
+    .then((response) => response.json())
+    .then((values) => {
+      onSuccess(values);
+    }).catch(() => {
       onError();
     });
 };
 
-export { getData, sendData };
+export { sendRequest };
