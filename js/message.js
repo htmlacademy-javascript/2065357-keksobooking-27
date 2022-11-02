@@ -7,7 +7,7 @@ const errorMessageTemplate = document.querySelector('#error')
 const postSuccessMessage = successMessageTemplate.cloneNode(true);
 const postErrorMessage = errorMessageTemplate.cloneNode(true);
 const errorButton = postErrorMessage.querySelector('.error__button');
-const getErrorMessage = `<div style="
+const requestErrorMessage = `<div style="
                             display: flex;
                             justify-content: center;
                             align-items: center;
@@ -54,13 +54,14 @@ const showErrorMessage = () => {
 };
 
 const showGetErrorMessage = () => {
-  document.querySelector('.notice').innerHTML += getErrorMessage;
+  document.querySelector('.notice').innerHTML += requestErrorMessage;
 };
 
 function isEscapeKey(evt) {
   evt.preventDefault();
   if (evt.key === 'Escape') {
     closeSuccessMessage();
+    closeErrorMessage();
   }
 }
 
