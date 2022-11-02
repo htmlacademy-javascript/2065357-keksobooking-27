@@ -1,23 +1,36 @@
-import { request } from './api.js';
+import { sendRequest } from './api.js';
+import { resetFilters } from './filter.js';
 import { updateMainMarker } from './map.js';
 import { adForm, adFormSlider, pristine, setPricePlaceholder } from './validate.js';
 
-const mapForm = document.querySelector('.map__filters');
-const fieldsOfForms = document.querySelectorAll('select.map__filter, fieldset');
+
+const mapFilters = document.querySelector('.map__filters');
+const mapFields = mapFilters.querySelectorAll('select.map__filter');
+const adFormFields = adForm.querySelectorAll('fieldset');
 const submitButton = adForm.querySelector('.ad-form__submit');
 const resetButton = adForm.querySelector('.ad-form__reset');
 
-const switchStateElements = () => {
-  fieldsOfForms.forEach((element) => {
+const switchStateElements = (elements) => {
+  elements.forEach((element) => {
     element.disabled = !element.disabled;
   });
 };
 
-const switchPageMode = () => {
-  adForm.classList.toggle('ad-form--disabled');
-  mapForm.classList.toggle('map__filters--disabled');
+const switchStateMapFilters = () => {
+  mapFilters.classList.toggle('map__filters--disabled');
 
-  switchStateElements();
+  switchStateElements(mapFields);
+};
+
+const switchStateAdForm = () => {
+  adForm.classList.toggle('ad-form--disabled');
+
+  switchStateElements(adFormFields);
+};
+
+const switchPageMode = () => {
+  switchStateMapFilters();
+  switchStateAdForm();
 };
 
 
@@ -34,6 +47,7 @@ const unblockSubmitButton = () => {
 const resetForm = (form) => {
   adFormSlider.noUiSlider.set(0);
   pristine.reset();
+  resetFilters();
   form.reset();
   setPricePlaceholder();
   updateMainMarker();
@@ -49,9 +63,10 @@ const setAdFormSubmit = (onSuccess, onError) => {
     evt.preventDefault();
     if (pristine.validate()) {
       blockSubmitButton();
-      request(
+      sendRequest(
         () => {
           onSuccess();
+          resetFilters();
           resetForm(evt.target);
           unblockSubmitButton();
         },
@@ -66,4 +81,4 @@ const setAdFormSubmit = (onSuccess, onError) => {
   });
 };
 
-export { setAdFormSubmit, switchPageMode };
+export { setAdFormSubmit, switchPageMode, switchStateMapFilters, switchStateAdForm };

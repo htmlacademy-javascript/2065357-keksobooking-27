@@ -1,15 +1,25 @@
-import { renderMarker } from './map.js';
+import { map, mainSettings, renderMarker, renderStartMarkers } from './map.js';
 import { showSuccessMessage, showErrorMessage, showGetErrorMessage } from './message.js';
-import { switchPageMode, setAdFormSubmit } from './user-form.js';
-import { request } from './api.js';
+import { switchPageMode, setAdFormSubmit, switchStateMapFilters, switchStateAdForm } from './user-form.js';
+import { sendRequest } from './api.js';
 import './validate.js';
+import { activateFilter, filterAds } from './filter.js';
 
 switchPageMode();
 
-const ADS_COUNT = 10;
+map.on('load', () => {
+  switchStateAdForm();
+  sendRequest((ads) => {
+    renderStartMarkers();
+    switchStateMapFilters();
+    activateFilter(() => {
+      renderMarker(filterAds(ads));
+    });
+  }, showGetErrorMessage, 'GET');
+}).setView({
+  lat: mainSettings.lat,
+  lng: mainSettings.lng
+}, mainSettings.zoom);
 
-request((ads) => {
-  renderMarker(ads.slice(0, ADS_COUNT));
-}, showGetErrorMessage, 'GET');
 
 setAdFormSubmit(showSuccessMessage, showErrorMessage);
