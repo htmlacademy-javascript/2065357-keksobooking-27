@@ -1,4 +1,5 @@
 const FILE_TYPES = ['jpeg', 'jpg', 'svg', 'png', 'gif'];
+const DEFAULT_AVATAR_ICON_ADDRESS = 'img/muffin-grey.svg';
 
 const avatarChooser = document.querySelector('#avatar');
 const avatarPreview = document.querySelector('.ad-form-header__preview img');
@@ -22,5 +23,13 @@ housePhotosChooser.addEventListener('change', () => {
   const matches = FILE_TYPES.some((type) => photoName.endsWith(type));
   if (matches) {
     housePhotosPreview.style.backgroundImage = `url(${URL.createObjectURL(photo)})`;
+    housePhotosPreview.style.backgroundSize = 'cover';
   }
 });
+
+const resetPhotoFields = () => {
+  avatarPreview.src = DEFAULT_AVATAR_ICON_ADDRESS;
+  housePhotosPreview.style.backgroundImage = 'none';
+};
+
+export { resetPhotoFields };
