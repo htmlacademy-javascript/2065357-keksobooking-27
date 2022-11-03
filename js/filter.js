@@ -63,13 +63,6 @@ const filterFeatures = ({ offer }) =>
     return offer.features.includes(featureCheckbox.value);
   });
 
-const compareAds = (adA, adB) => {
-  const rankA = adA.offer.features ? adA.offer.length : 0;
-  const rankB = adB.offer.features ? adB.offer.length : 0;
-
-  return rankB - rankA;
-};
-
 const filterAds = (arr) => {
   const filteredAds = [];
   let i = 0;
@@ -79,7 +72,7 @@ const filterAds = (arr) => {
     }
     i++;
   }
-  return filteredAds.sort(compareAds);
+  return filteredAds;
 };
 
 const activateFilter = (cb) => {
