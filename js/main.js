@@ -3,6 +3,7 @@ import { showSuccessMessage, showErrorMessage, showGetErrorMessage } from './mes
 import { switchPageMode, setAdFormSubmit, switchStateMapFilters, switchStateAdForm } from './user-form.js';
 import { sendRequest } from './api.js';
 import { activateFilter, filterAds } from './filter.js';
+import './photo.js';
 
 switchPageMode();
 
