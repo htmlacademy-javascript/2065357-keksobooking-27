@@ -1,13 +1,13 @@
-import { map, mainSettings, renderMarker, renderStartMarkers } from './map.js';
+import { mainSettings, renderMarker, renderStartMarkers, initMap, setOnMapLoad } from './map.js';
 import { showSuccessMessage, showErrorMessage, showGetErrorMessage } from './message.js';
 import { switchPageMode, setAdFormSubmit, switchStateMapFilters, switchStateAdForm } from './user-form.js';
 import { sendRequest } from './api.js';
-import './validate.js';
 import { activateFilter, filterAds } from './filter.js';
+import './photo.js';
 
 switchPageMode();
 
-map.on('load', () => {
+setOnMapLoad(() => {
   switchStateAdForm();
   sendRequest((ads) => {
     renderStartMarkers();
@@ -16,10 +16,8 @@ map.on('load', () => {
       renderMarker(filterAds(ads));
     });
   }, showGetErrorMessage, 'GET');
-}).setView({
-  lat: mainSettings.lat,
-  lng: mainSettings.lng
-}, mainSettings.zoom);
+});
 
+initMap(mainSettings);
 
 setAdFormSubmit(showSuccessMessage, showErrorMessage);

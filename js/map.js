@@ -10,17 +10,7 @@ const mainSettings = {
   zoom: 11
 };
 const addressField = document.querySelector('#address');
-
-addressField.value = `${mainSettings.lat.toFixed(mainSettings.numberDecimals)} ${mainSettings.lng.toFixed(mainSettings.numberDecimals)}`;
-
 const map = L.map('map-canvas');
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }
-).addTo(map);
 
 const mainMarkerIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -45,7 +35,26 @@ const mainPinMarker = L.marker(
   }
 );
 
-mainPinMarker.addTo(map);
+const initMap = ({ lat, lng, numberDecimals, zoom }) => {
+  map.setView({
+    lat: lat,
+    lng: lng
+  }, zoom);
+
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }
+  ).addTo(map);
+
+  mainPinMarker.addTo(map);
+  addressField.value = `${lat.toFixed(numberDecimals)} ${lng.toFixed(numberDecimals)}`;
+};
+
+const setOnMapLoad = (cb) => {
+  map.on('load', cb);
+};
 
 mainPinMarker.on('move', (evt) => {
   const latLng = evt.target.getLatLng();
@@ -72,18 +81,21 @@ const renderMarker = (adList) => {
   });
 };
 
-const updateMainMarker = () => {
-  mainPinMarker.setLatLng({
-    lat: mainSettings.lat,
-    lng: mainSettings.lng
-  });
-  addressField.value = `${mainSettings.lat.toFixed(mainSettings.numberDecimals)} ${mainSettings.lng.toFixed(mainSettings.numberDecimals)}`;
-};
-
 const renderStartMarkers = () => {
   sendRequest((ads) => {
     renderMarker(ads.slice(0, ADS_COUNT));
   }, showGetErrorMessage, 'GET');
 };
 
-export { renderMarker, updateMainMarker, markerGroup, renderStartMarkers, ADS_COUNT, map, mainSettings };
+const resetMap = () => {
+  mainPinMarker.setLatLng({
+    lat: mainSettings.lat,
+    lng: mainSettings.lng
+  });
+  map.setView({
+    lat: mainSettings.lat,
+    lng: mainSettings.lng
+  }, mainSettings.zoom);
+};
+
+export { renderMarker, resetMap, markerGroup, renderStartMarkers, ADS_COUNT, initMap, setOnMapLoad, mainSettings };
