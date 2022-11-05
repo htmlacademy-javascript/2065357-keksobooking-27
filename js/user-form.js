@@ -1,8 +1,8 @@
 import { sendRequest } from './api.js';
 import { resetFilters } from './filter.js';
-import { updateMainMarker } from './map.js';
+import { resetMap } from './map.js';
+import { resetPhotoFields } from './photo.js';
 import { adForm, adFormSlider, pristine, setPricePlaceholder } from './validate.js';
-
 
 const mapFilters = document.querySelector('.map__filters');
 const mapFields = mapFilters.querySelectorAll('select.map__filter');
@@ -50,7 +50,8 @@ const resetForm = (form) => {
   resetFilters();
   form.reset();
   setPricePlaceholder();
-  updateMainMarker();
+  resetMap();
+  resetPhotoFields();
 };
 
 resetButton.addEventListener('click', (evt) => {

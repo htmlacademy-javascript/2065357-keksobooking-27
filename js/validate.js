@@ -18,6 +18,7 @@ const roomsField = adForm.querySelector('#room_number');
 const guestsField = adForm.querySelector('#capacity');
 const timeInField = adForm.querySelector('#timein');
 const timeOutField = adForm.querySelector('#timeout');
+const adFormSlider = adForm.querySelector('.ad-form__slider');
 
 const validateTitle = (value) => value.length >= MIN_VALUE_OF_SYMBOLS && value.length <= MAX_VALUE_OF_SYMBOLS;
 
@@ -25,6 +26,8 @@ const validatePrice = (value) => value >= MIN_PRICE_LIST[typeField.value] && val
 
 const validateCapacity = () =>
   roomsField.value === MAX_VALUE_OF_ROOMS ? guestsField.value === MIN_VALUE_OF_GUESTS : roomsField.value >= guestsField.value && guestsField.value !== MIN_VALUE_OF_GUESTS;
+
+const getTitleErrorMessage = () => `От ${MIN_VALUE_OF_SYMBOLS} до ${MAX_VALUE_OF_SYMBOLS} символов`;
 
 const getPriceErrorMessage = () => `От ${MIN_PRICE_LIST[typeField.value]} руб. до ${MAX_PRICE} руб.`;
 
@@ -42,6 +45,24 @@ const setPricePlaceholder = () => {
   priceField.placeholder = MIN_PRICE_LIST[typeField.value];
 };
 
+noUiSlider.create(adFormSlider, {
+  range: {
+    min: 0,
+    max: MAX_PRICE
+  },
+  start: 0,
+  step: 1,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      return value.toFixed(0);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    }
+  }
+});
+
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
@@ -54,7 +75,7 @@ const pristine = new Pristine(adForm, {
 pristine.addValidator(
   titleField,
   validateTitle,
-  `От ${MIN_VALUE_OF_SYMBOLS} до ${MAX_VALUE_OF_SYMBOLS} символов`
+  getTitleErrorMessage()
 );
 pristine.addValidator(
   priceField,
@@ -93,27 +114,6 @@ timeInField.addEventListener('change', () => {
 
 timeOutField.addEventListener('change', () => {
   timeInField.value = timeOutField.value;
-});
-
-// слайдер
-const adFormSlider = adForm.querySelector('.ad-form__slider');
-
-noUiSlider.create(adFormSlider, {
-  range: {
-    min: 0,
-    max: MAX_PRICE
-  },
-  start: 0,
-  step: 1,
-  connect: 'lower',
-  format: {
-    to: function (value) {
-      return value.toFixed(0);
-    },
-    from: function (value) {
-      return parseFloat(value);
-    }
-  }
 });
 
 adFormSlider.noUiSlider.on('slide', () => {

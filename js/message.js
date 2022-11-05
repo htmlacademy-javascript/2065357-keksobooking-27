@@ -55,6 +55,7 @@ const showErrorMessage = () => {
 
 const showGetErrorMessage = () => {
   document.querySelector('.notice').innerHTML += requestErrorMessage;
+  setTimeout(() => document.querySelector('.notice').lastChild.remove(), 5000);
 };
 
 function isEscapeKey(evt) {
