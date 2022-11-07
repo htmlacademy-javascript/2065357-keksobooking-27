@@ -49,7 +49,7 @@ const initMap = ({ lat, lng, numberDecimals, zoom }) => {
   ).addTo(map);
 
   mainPinMarker.addTo(map);
-  addressField.value = `${lat.toFixed(numberDecimals)} ${lng.toFixed(numberDecimals)}`;
+  addressField.value = `${lat.toFixed(numberDecimals)}, ${lng.toFixed(numberDecimals)}`;
 };
 
 const setOnMapLoad = (cb) => {
@@ -58,7 +58,7 @@ const setOnMapLoad = (cb) => {
 
 mainPinMarker.on('move', (evt) => {
   const latLng = evt.target.getLatLng();
-  addressField.value = `${latLng.lat.toFixed(mainSettings.numberDecimals)} ${latLng.lng.toFixed(mainSettings.numberDecimals)}`;
+  addressField.value = `${latLng.lat.toFixed(mainSettings.numberDecimals)}, ${latLng.lng.toFixed(mainSettings.numberDecimals)}`;
 });
 
 const markerGroup = L.layerGroup().addTo(map);
