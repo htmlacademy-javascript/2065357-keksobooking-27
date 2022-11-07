@@ -10,8 +10,8 @@ avatarChooser.addEventListener('change', () => {
   const avatar = avatarChooser.files[0];
   const avatarName = avatar.name.toLowerCase();
 
-  const matches = FILE_TYPES.some((type) => avatarName.endsWith(type));
-  if (matches) {
+  const match = FILE_TYPES.some((type) => avatarName.endsWith(type));
+  if (match) {
     avatarPreview.src = URL.createObjectURL(avatar);
   }
 });
@@ -20,8 +20,8 @@ housePhotosChooser.addEventListener('change', () => {
   const photo = housePhotosChooser.files[0];
   const photoName = photo.name.toLowerCase();
 
-  const matches = FILE_TYPES.some((type) => photoName.endsWith(type));
-  if (matches) {
+  const match = FILE_TYPES.some((type) => photoName.endsWith(type));
+  if (match) {
     housePhotosPreview.style.backgroundImage = `url(${URL.createObjectURL(photo)})`;
     housePhotosPreview.style.backgroundSize = 'cover';
   }

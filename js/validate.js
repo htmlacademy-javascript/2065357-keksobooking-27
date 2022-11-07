@@ -31,14 +31,17 @@ const getTitleErrorMessage = () => `От ${MIN_VALUE_OF_SYMBOLS} до ${MAX_VALU
 
 const getPriceErrorMessage = () => `От ${MIN_PRICE_LIST[typeField.value]} руб. до ${MAX_PRICE} руб.`;
 
-const getCapacityErrorMessage = () => {
+const getRoomsErrorMessage = () => {
   if (roomsField.value === MAX_VALUE_OF_ROOMS) {
     return 'Не для гостей';
   }
+};
+
+const getGuestsErrorMessage = () => {
   if (guestsField.value === MIN_VALUE_OF_GUESTS) {
-    return `Необходимо ${MAX_VALUE_OF_ROOMS} комнат`;
+    return `Требуется ${MAX_VALUE_OF_ROOMS} комнат`;
   }
-  return `Необходимо минимум ${guestsField.value} комнаты.`;
+  return `Требуется минимум ${guestsField.value} ${guestsField.value === '1' ? 'комната' : 'комнаты'}.`;
 };
 
 const setPricePlaceholder = () => {
@@ -85,12 +88,12 @@ pristine.addValidator(
 pristine.addValidator(
   guestsField,
   validateCapacity,
-  getCapacityErrorMessage
+  getGuestsErrorMessage
 );
 pristine.addValidator(
   roomsField,
   validateCapacity,
-  getCapacityErrorMessage
+  getRoomsErrorMessage
 );
 
 typeField.addEventListener('change', () => {
