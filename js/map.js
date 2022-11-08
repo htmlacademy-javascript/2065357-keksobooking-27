@@ -77,7 +77,7 @@ const renderMarker = (adList) => {
 
     marker
       .addTo(markerGroup)
-      .bindPopup(renderAdList(adList, index));
+      .bindPopup(renderAdList(adList[index]));
   });
 };
 
