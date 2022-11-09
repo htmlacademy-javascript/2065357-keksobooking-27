@@ -26,6 +26,7 @@ const switchStateAdForm = () => {
   adForm.classList.toggle('ad-form--disabled');
 
   switchStateElements(adFormFields);
+  adFormSlider.toggleAttribute('disabled');
 };
 
 const switchPageMode = () => {
