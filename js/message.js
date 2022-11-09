@@ -29,28 +29,28 @@ const requestErrorMessage = `<div style="
 
 const closeSuccessMessage = () => {
   postSuccessMessage.remove();
-  document.removeEventListener('keydown', escapeKeydownHandler);
-  document.removeEventListener('click', closeSuccessMessage);
+  document.removeEventListener('keydown', messageEscapeKeydownHandler);
+  document.removeEventListener('click', messageClickHandler);
 };
 
 const closeErrorMessage = () => {
   postErrorMessage.remove();
-  document.removeEventListener('keydown', escapeKeydownHandler);
-  document.removeEventListener('click', closeErrorMessage);
-  errorButton.removeEventListener('click', closeErrorMessage);
+  document.removeEventListener('keydown', messageEscapeKeydownHandler);
+  document.removeEventListener('click', messageClickHandler);
+  errorButton.removeEventListener('click', messageClickHandler);
 };
 
 const showSuccessMessage = () => {
   document.body.append(postSuccessMessage);
-  document.addEventListener('keydown', escapeKeydownHandler);
-  document.addEventListener('click', closeSuccessMessage);
+  document.addEventListener('keydown', messageEscapeKeydownHandler);
+  document.addEventListener('click', messageClickHandler);
 };
 
 const showErrorMessage = () => {
   document.body.append(postErrorMessage);
-  document.addEventListener('keydown', escapeKeydownHandler);
-  document.addEventListener('click', closeErrorMessage);
-  errorButton.addEventListener('click', closeErrorMessage);
+  document.addEventListener('keydown', messageEscapeKeydownHandler);
+  document.addEventListener('click', messageClickHandler);
+  errorButton.addEventListener('click', messageClickHandler);
 };
 
 const showGetErrorMessage = () => {
@@ -58,7 +58,12 @@ const showGetErrorMessage = () => {
   setTimeout(() => document.querySelector('.notice').lastChild.remove(), 5000);
 };
 
-function escapeKeydownHandler(evt) {
+function messageClickHandler() {
+  closeSuccessMessage();
+  closeErrorMessage();
+}
+
+function messageEscapeKeydownHandler(evt) {
   evt.preventDefault();
   if (evt.key === 'Escape') {
     closeSuccessMessage();
