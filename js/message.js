@@ -27,30 +27,30 @@ const requestErrorMessage = `<div style="
                               Ошибка загрузки данных
                             </div>`;
 
-const closeSuccessMessage = () => {
+const successMessageClickHadler = () => {
   postSuccessMessage.remove();
   document.removeEventListener('keydown', messageEscapeKeydownHandler);
-  document.removeEventListener('click', messageClickHandler);
+  document.removeEventListener('click', successMessageClickHadler);
 };
 
-const closeErrorMessage = () => {
+const errorMessageClickHadler = () => {
   postErrorMessage.remove();
   document.removeEventListener('keydown', messageEscapeKeydownHandler);
-  document.removeEventListener('click', messageClickHandler);
-  errorButton.removeEventListener('click', messageClickHandler);
+  document.removeEventListener('click', errorMessageClickHadler);
+  errorButton.removeEventListener('click', errorMessageClickHadler);
 };
 
 const showSuccessMessage = () => {
   document.body.append(postSuccessMessage);
   document.addEventListener('keydown', messageEscapeKeydownHandler);
-  document.addEventListener('click', messageClickHandler);
+  document.addEventListener('click', successMessageClickHadler);
 };
 
 const showErrorMessage = () => {
   document.body.append(postErrorMessage);
   document.addEventListener('keydown', messageEscapeKeydownHandler);
-  document.addEventListener('click', messageClickHandler);
-  errorButton.addEventListener('click', messageClickHandler);
+  document.addEventListener('click', errorMessageClickHadler);
+  errorButton.addEventListener('click', errorMessageClickHadler);
 };
 
 const showGetErrorMessage = () => {
@@ -58,16 +58,11 @@ const showGetErrorMessage = () => {
   setTimeout(() => document.querySelector('.notice').lastChild.remove(), 5000);
 };
 
-function messageClickHandler() {
-  closeSuccessMessage();
-  closeErrorMessage();
-}
-
 function messageEscapeKeydownHandler(evt) {
   evt.preventDefault();
   if (evt.key === 'Escape') {
-    closeSuccessMessage();
-    closeErrorMessage();
+    successMessageClickHadler();
+    errorMessageClickHadler();
   }
 }
 
