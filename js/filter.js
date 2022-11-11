@@ -66,7 +66,7 @@ const filterFeatures = ({ offer }) =>
 const filterAds = (arr) => {
   const filteredAds = [];
   let i = 0;
-  while (filteredAds.length <= ADS_COUNT && i < arr.length) {
+  while (filteredAds.length < ADS_COUNT && i < arr.length) {
     if (filterType(arr[i]) && filterPrice(arr[i]) && filterRooms(arr[i]) && filterGuests(arr[i]) && filterFeatures(arr[i])) {
       filteredAds.push(arr[i]);
     }
